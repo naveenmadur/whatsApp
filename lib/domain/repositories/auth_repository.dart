@@ -4,6 +4,7 @@ import 'package:whats_app/domain/entities/entities.dart';
 
 //! contract
 abstract class AuthRepository {
-  Future<Either<Failure, WhatsUpUser>> login(String email, String password);
-  Future<Either<Failure, WhatsUpUser>> signup(String email, String password);
+  Future<Either<Failure, WhatsUpUserEntity>> login(String email, String password);
+  Future<Either<Failure, WhatsUpUserEntity>> signup(String email, String password);
+  Future<Either<Failure, WhatsUpUserEntity>> currentUser();
 }

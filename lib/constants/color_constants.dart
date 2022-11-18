@@ -7,5 +7,6 @@ class ColorConstants {
   static const Color grey = Color.fromRGBO(84, 95, 107, 1);
   static  Color light_grey = Colors.grey.shade300;
   static const Color light_red = Color.fromRGBO(254, 239, 239, 1);
+  static const Color red = Colors.red;
   static const Color light_green = Color.fromRGBO(227, 245, 242, 1);
 }

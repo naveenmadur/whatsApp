@@ -7,13 +7,15 @@ class AppBarAcionsContainer extends StatelessWidget {
   const AppBarAcionsContainer({
     Key? key,
     required this.icon,
+    required this.ontap,
   }) : super(key: key);
   final IconData icon;
+  final VoidCallback ontap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: ontap,
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 15),
         decoration: BoxDecoration(

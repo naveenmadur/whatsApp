@@ -19,3 +19,5 @@ class LoginEvent extends AuthEvent {
     required this.password,
   });
 }
+
+class GetCurrentUser extends AuthEvent{}

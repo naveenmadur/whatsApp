@@ -13,12 +13,20 @@ class _$Injector extends Injector {
     container
       ..registerFactory((c) => AuthBloc(
           signupUseCase: c<SignupUseCase>(),
-          validateOtpUseCase: c<LoginUseCase>()))
+          loginUseCase: c<LoginUseCase>(),
+          getCurrentUserUseCase: c<GetCurrentUserUseCase>()))
+      ..registerFactory(
+          (c) => UsersBloc(getAllUsersUseCase: c<GetAllUsersUseCase>()))
       ..registerFactory((c) => SignupUseCase(auth: c<AuthRepository>()))
       ..registerFactory((c) => LoginUseCase(auth: c<AuthRepository>()))
+      ..registerFactory((c) => GetCurrentUserUseCase(auth: c<AuthRepository>()))
+      ..registerFactory((c) => GetAllUsersUseCase(repo: c<UsersRepository>()))
       ..registerFactory<AuthRepository>((c) =>
           AuthRepositoryImpl(authRemoteDataSource: c<AuthRemoteDataSource>()))
-      ..registerFactory<AuthRemoteDataSource>(
-          (c) => AuthRemoteDataSourceImpl());
+      ..registerFactory<UsersRepository>((c) => UsersRepositoryImpl(
+          usersRemoteDataSource: c<UsersRemoteDataSource>()))
+      ..registerFactory<AuthRemoteDataSource>((c) => AuthRemoteDataSourceImpl())
+      ..registerFactory<UsersRemoteDataSource>(
+          (c) => UsersRemoteDataSourceImpl());
   }
 }

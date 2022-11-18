@@ -1,5 +1,8 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:whats_app/constants/color_constants.dart';
 import 'package:whats_app/constants/text_constants.dart';
 import 'package:whats_app/presentation/bloc/homescreen_bloc/homescreen_bloc.dart';
@@ -7,10 +10,13 @@ import 'package:whats_app/presentation/screens/home_screen/screens/calls.dart';
 import 'package:whats_app/presentation/screens/home_screen/screens/chats.dart';
 import 'package:whats_app/presentation/screens/home_screen/screens/status.dart';
 import 'package:whats_app/presentation/screens/home_screen/widgets/app_bar_actions_container.dart';
+import 'package:whats_app/presentation/screens/home_screen/widgets/custom_pop_up_menu_button.dart';
 import 'package:whats_app/presentation/screens/home_screen/widgets/top_nav_bar_container.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +31,12 @@ class HomeScreen extends StatelessWidget {
         actions: [
           AppBarAcionsContainer(
             icon: Icons.search,
+            ontap: () {},
           ),
           SizedBox(
             width: 20,
           ),
-          AppBarAcionsContainer(
-            icon: Icons.more_vert,
-          ),
+          CustomPopUpMenuButton(),
         ],
       ),
       body: BlocBuilder<HomescreenBloc, HomescreenState>(
@@ -87,8 +92,7 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
             );
-          }
-          else{
+          } else {
             return Container();
           }
         },
@@ -96,3 +100,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+

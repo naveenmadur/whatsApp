@@ -1,1 +1,1 @@
-export 'auth/user.dart';
+export 'auth/whatsup_user_entity.dart';

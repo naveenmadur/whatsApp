@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
-class WhatsUpUser extends Equatable {
+class WhatsUpUserEntity extends Equatable {
   final String email;
-  WhatsUpUser({required this.email});
+  WhatsUpUserEntity({required this.email});
 
   @override
   List<Object?> get props => [email];

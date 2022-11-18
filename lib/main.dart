@@ -6,6 +6,7 @@ import 'package:whats_app/core/di/injector.dart';
 import 'package:whats_app/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:whats_app/presentation/bloc/homescreen_bloc/homescreen_bloc.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:whats_app/presentation/bloc/users_bloc/users_bloc.dart';
 import 'package:whats_app/presentation/screens/home_screen/home_screen.dart';
 import 'package:whats_app/presentation/screens/log_in/login_screen.dart';
 import 'package:whats_app/presentation/screens/sign_up/signup_screen.dart';
@@ -28,6 +29,8 @@ class MyApp extends StatelessWidget {
           create: (context) => kiwi.KiwiContainer().resolve<AuthBloc>(),
         ),
         BlocProvider<HomescreenBloc>(create: (context) => HomescreenBloc()),
+        BlocProvider<UsersBloc>(
+            create: (context) => kiwi.KiwiContainer().resolve<UsersBloc>()),
       ],
       child: ScreenUtilInit(
         designSize: const Size(428, 926),
@@ -38,8 +41,8 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.teal,
             ),
-            // home: LoginScreen(),
-            home: HomeScreen(),
+            home: LoginScreen(),
+            // home: HomeScreen(),
           );
         },
       ),

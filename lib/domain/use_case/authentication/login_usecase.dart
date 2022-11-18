@@ -8,7 +8,7 @@ class LoginUseCase {
   final AuthRepository auth;
   LoginUseCase({required this.auth});
 
-  Future<Either<Failure, WhatsUpUser>> login({
+  Future<Either<Failure, WhatsUpUserEntity>> login({
     required String email,
     required String password,
   }) {

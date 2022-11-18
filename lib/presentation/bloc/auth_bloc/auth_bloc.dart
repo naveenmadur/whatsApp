@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
+import 'package:whats_app/domain/entities/auth/whatsup_user_entity.dart';
+import 'package:whats_app/domain/use_case/authentication/get_currentUser_usercase.dart';
 import 'package:whats_app/domain/use_case/authentication/sign_up_usecase.dart';
 import 'package:whats_app/domain/use_case/authentication/login_usecase.dart';
 
@@ -8,12 +10,14 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final SignupUseCase signupUseCase;
-  final LoginUseCase validateOtpUseCase;
+  final LoginUseCase loginUseCase;
+  final GetCurrentUserUseCase getCurrentUserUseCase;
   String phoneNumber = '';
   String verificationId = '';
   AuthBloc({
     required this.signupUseCase,
-    required this.validateOtpUseCase,
+    required this.loginUseCase,
+    required this.getCurrentUserUseCase,
   }) : super(CurrentState(
             status: AuthStatus.success, message: 'Initial', email: '')) {
     on<RegisterEvent>((event, emit) async {
@@ -25,7 +29,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           CurrentState(
             status: AuthStatus.failure,
             message: l.message,
-            email: phoneNumber,
+            email: event.email,
           ),
         );
       }, (r) {
@@ -33,14 +37,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           CurrentState(
             status: AuthStatus.success,
             message: 'Registration Successful',
-            email: phoneNumber,
+            email: r.email,
           ),
         );
       });
     });
 
     on<LoginEvent>((event, emit) async {
-      final result = await validateOtpUseCase.login(
+      final result = await loginUseCase.login(
         email: event.email,
         password: event.password,
       );
@@ -55,9 +59,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         CurrentState(
           status: AuthStatus.success,
           message: 'Login Successful',
-          email: event.email,
+          email: r.email,
         );
       });
+    });
+
+    on<GetCurrentUser>((event, emit) async {
+      final user = await getCurrentUserUseCase.currentUser();
+      user.fold((l) => null, (r) => emit(UserDetails(user: r)));
     });
   }
 }

@@ -85,8 +85,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             onPressed: () {
                               BlocProvider.of<AuthBloc>(context).add(
                                   RegisterEvent(
-                                      email: _emailId,
-                                      password: _password));
+                                      email: _emailId, password: _password));
                               if (state.status == AuthStatus.success) {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(

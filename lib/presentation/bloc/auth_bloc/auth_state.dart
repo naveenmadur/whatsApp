@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'auth_bloc.dart';
 
 enum AuthStatus { loading, success, failure }
@@ -13,5 +14,12 @@ class CurrentState extends AuthState {
     this.status = AuthStatus.loading,
     required this.message,
     required this.email,
+  });
+}
+
+class UserDetails extends AuthState {
+  final WhatsUpUserEntity user;
+  UserDetails({
+    required this.user,
   });
 }
