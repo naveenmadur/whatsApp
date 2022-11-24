@@ -11,8 +11,8 @@ abstract class UsersState extends Equatable {
 class UsersInitial extends UsersState {}
 
 class AllUsers extends UsersState {
-  final Stream<QuerySnapshot>? snapshot;
-  AllUsers({this.snapshot});
+  final Stream<List<UserEntity>> userStream;
+  AllUsers({required this.userStream});
 }
 
 class ErrorState extends UsersState {

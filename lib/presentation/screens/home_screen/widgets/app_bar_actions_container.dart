@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:whats_app/constants/color_constants.dart';
+import 'package:whats_app/constants/decorations.dart';
+import 'package:whats_app/constants/paddings&margins.dart';
 
 class AppBarAcionsContainer extends StatelessWidget {
   const AppBarAcionsContainer({
@@ -17,11 +19,10 @@ class AppBarAcionsContainer extends StatelessWidget {
     return GestureDetector(
       onTap: ontap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 15),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: ColorConstants.light_green,
-        ),
+        constraints: BoxConstraints(maxHeight: 10),
+        margin: Margins.appBarIconMargin,
+        padding: Paddings.appBarIconPadding,
+        decoration: Decorations.appBarIconBoxDecoration,
         child: Icon(
           icon,
           color: ColorConstants.primary_green,

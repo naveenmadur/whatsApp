@@ -9,28 +9,20 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.authRemoteDataSource});
 
   @override
-  Future<Either<Failure, WhatsUpUserEntity>> signup(String email, String password) async {
-    try {
-      authRemoteDataSource.register(email, password);
-    } catch (e) {
-      return Left(FirebaseFailure(e.toString()));
-    }
-    return await Right(WhatsUpUserEntity(email: email));
+  Future<Either<Failure, WhatsUpUserEntity>> signup(
+      String email, String password) async {
+    return authRemoteDataSource.register(email, password);
   }
 
   @override
-  Future<Either<Failure, WhatsUpUserEntity>> login(String email, String password) async {
-    try {
-      authRemoteDataSource.login(email, password);
-    } catch (e) {
-      return Left(FirebaseFailure(e.toString()));
-    }
-    return Right(WhatsUpUserEntity(email: email));
+  Future<Either<Failure, WhatsUpUserEntity>> login(
+      String email, String password) async {
+    return authRemoteDataSource.login(email, password);
   }
-  
+
   @override
   Future<Either<Failure, WhatsUpUserEntity>> currentUser() async {
     final WhatsUpUserEntity user = await authRemoteDataSource.currentUser();
-    return  Right(user);
+    return Right(user);
   }
 }

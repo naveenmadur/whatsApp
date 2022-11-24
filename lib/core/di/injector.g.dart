@@ -17,16 +17,25 @@ class _$Injector extends Injector {
           getCurrentUserUseCase: c<GetCurrentUserUseCase>()))
       ..registerFactory(
           (c) => UsersBloc(getAllUsersUseCase: c<GetAllUsersUseCase>()))
+      ..registerFactory((c) => MessageBloc(
+          getMessageUseCase: c<GetMessageUseCase>(),
+          postMessageUseCase: c<PostMessageUseCase>()))
       ..registerFactory((c) => SignupUseCase(auth: c<AuthRepository>()))
       ..registerFactory((c) => LoginUseCase(auth: c<AuthRepository>()))
       ..registerFactory((c) => GetCurrentUserUseCase(auth: c<AuthRepository>()))
       ..registerFactory((c) => GetAllUsersUseCase(repo: c<UsersRepository>()))
+      ..registerFactory((c) => GetMessageUseCase(repo: c<MessageRepository>()))
+      ..registerFactory((c) => PostMessageUseCase(repo: c<MessageRepository>()))
       ..registerFactory<AuthRepository>((c) =>
           AuthRepositoryImpl(authRemoteDataSource: c<AuthRemoteDataSource>()))
       ..registerFactory<UsersRepository>((c) => UsersRepositoryImpl(
           usersRemoteDataSource: c<UsersRemoteDataSource>()))
+      ..registerFactory<MessageRepository>((c) => MessageRepositoryImpl(
+          messageRemoteDataSource: c<MessageRemoteDataSource>()))
       ..registerFactory<AuthRemoteDataSource>((c) => AuthRemoteDataSourceImpl())
       ..registerFactory<UsersRemoteDataSource>(
-          (c) => UsersRemoteDataSourceImpl());
+          (c) => UsersRemoteDataSourceImpl())
+      ..registerFactory<MessageRemoteDataSource>(
+          (c) => MessageRemoteDataSourceImpl());
   }
 }

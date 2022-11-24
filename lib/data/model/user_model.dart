@@ -10,7 +10,7 @@ class UserModel extends UserEntity {
   @override
   List<Object?> get props => [email, profilePic, uid];
 
-  factory UserModel.fromJson(Map<String, dynamic> json) {
+  factory UserModel.fromJson(Map<String,dynamic> json) {
     return UserModel(
       email: json['email'],
       profilePic: json['profilePic'],

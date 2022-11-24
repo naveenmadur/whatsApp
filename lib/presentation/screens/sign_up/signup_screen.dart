@@ -67,7 +67,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           EmailIdContainer(
                             onChanged: (value) {
                               _emailId = value;
-                              debugPrint(_emailId);
                             },
                           ),
                           SizedBox(
@@ -76,7 +75,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           PasswordContainer(
                             onChanged: (value) {
                               _password = value;
-                              debugPrint("userName: $_password");
                             },
                           ),
                           RememberMeRow(),

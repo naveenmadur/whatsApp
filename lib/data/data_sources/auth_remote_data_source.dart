@@ -1,11 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:whats_app/core/errors/failure.dart';
 import 'package:whats_app/data/model/auth/whatsup_user_model.dart';
 import 'package:whats_app/domain/entities/auth/whatsup_user_entity.dart';
 
 abstract class AuthRemoteDataSource {
-  Future<void> register(String phoneNumber, String userName);
-  Future<void> login(String email, String password);
+  Future<Either<Failure, WhatsUpUserEntity>> register(
+      String phoneNumber, String userName);
+  Future<Either<Failure, WhatsUpUserEntity>> login(
+      String email, String password);
   Future<WhatsUpUserEntity> currentUser();
 }
 
@@ -35,7 +39,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   //! Register user
   @override
-  Future<void> register(String email, String password) async {
+  Future<Either<Failure, WhatsUpUserEntity>> register(
+      String email, String password) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
       User? user = (await auth.createUserWithEmailAndPassword(
@@ -44,29 +49,28 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (user != null) {
         await updateUserData(email: email, uid: user.uid);
       }
-    } on FirebaseException {
-      return;
-    } catch (e) {
-      return;
+      return Right(WhatsUpUserEntity(email: email));
+    } on FirebaseException catch (e) {
+      return Left(FirebaseFailure(e.toString()));
     }
   }
 
   //! Login
   @override
-  Future<void> login(String email, String password) async {
+  Future<Either<Failure, WhatsUpUserEntity>> login(
+      String email, String password) async {
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
-      auth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) async {
-        if (value == true) {
-          await getUserData(email: email);
-        }
-      });
-    } on FirebaseException {
-      return;
-    } catch (e) {
-      return;
+      await auth.signInWithEmailAndPassword(email: email, password: password);
+      return Right(WhatsUpUserEntity(email: email));
+    } on FirebaseException catch (e) {
+      if (e.code == 'user-not-found') {
+        return Left((FirebaseFailure('No user found for that email.')));
+      } else if (e.code == 'wrong-password') {
+        return Left(FirebaseFailure('Wrong password provided for that user.'));
+      } else {
+        return Left(FirebaseFailure('An Error Occured'));
+      }
     }
   }
 
@@ -74,7 +78,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<WhatsUpUserEntity> currentUser() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     final User user = auth.currentUser!;
-      QuerySnapshot snapshot =  await getUserData(email: user.email!);
-      return WhatsupUserModel(email: snapshot.docs[0]["email"]);
+    QuerySnapshot snapshot = await getUserData(email: user.email!);
+    return WhatsupUserModel(
+        email: snapshot.docs[0]["email"], uid: snapshot.docs[0].id);
   }
 }

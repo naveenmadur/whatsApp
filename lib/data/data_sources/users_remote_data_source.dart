@@ -1,25 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:whats_app/data/model/user_model.dart';
 
 abstract class UsersRemoteDataSource {
-  Future<Stream<QuerySnapshot>?> fetchUsers();
+  Future<Stream<List<UserModel>>> fetchUsers();
 }
 
 class UsersRemoteDataSourceImpl implements UsersRemoteDataSource {
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
+      
   @override
-  Future<Stream<QuerySnapshot>?> fetchUsers() async {
-    final Stream<QuerySnapshot> snapshot =  await usersCollection.snapshots();
-    // for (int i = 0; i < await snapshot.length; i++) {
-      // debugPrint(snapshot.docs[i].data().toString());
-      // final data = UserModel.fromJson( snapshot.docs[i].data() as Map<String, dynamic>);
-    //   await snapshot.forEach((element) {
-    //     users.add(
-    //         UserModel.fromJson(element.docs[i].data() as Map<String, dynamic>));
-    //   });
-    // }
+  Future<Stream<List<UserModel>>> fetchUsers() async {
+    Stream<List<UserModel>> userStream = usersCollection.snapshots().map(
+        (list) => list.docs
+            .map(
+                (doc) => UserModel.fromJson(doc.data() as Map<String, dynamic>))
+            .toList());
 
-    // debugPrint(users[1].email);
-    return snapshot;
+    return userStream;
   }
 }

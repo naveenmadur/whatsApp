@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:whats_app/domain/entities/user_entity.dart';
 import 'package:whats_app/domain/use_case/get_all_users_usecase.dart';
 
 part 'users_event.dart';
@@ -14,7 +14,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
       result.fold((l) {
         emit(ErrorState());
       }, (r) {
-        emit(AllUsers(snapshot: r));
+        emit(AllUsers(userStream: r));
       });
     });
   }

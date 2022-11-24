@@ -1,15 +1,15 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app/constants/color_constants.dart';
 import 'package:whats_app/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:whats_app/presentation/screens/home_screen/home_screen.dart';
 import 'package:whats_app/presentation/screens/log_in/widgets/email_id_container.dart';
 import 'package:whats_app/presentation/screens/log_in/widgets/phone_number_text_span.dart';
 import 'package:whats_app/presentation/screens/log_in/widgets/remember_me_row.dart';
 import 'package:whats_app/presentation/screens/log_in/widgets/sign_up_row.dart';
 import 'package:whats_app/presentation/screens/log_in/widgets/password_container.dart';
+import 'package:whats_app/presentation/widgets/custom_circular_progress_indicator.dart';
 import 'package:whats_app/presentation/widgets/login_button.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: ColorConstants.light_background,
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
-          if (state is CurrentState) {
+          if (state is AuthInitial) {
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -64,38 +64,13 @@ class LoginScreen extends StatelessWidget {
                         PasswordContainer(onChanged: (value) {
                           _password = value;
                         }),
-                        state.status == AuthStatus.failure
-                            ? Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 30.w, vertical: 10.h),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: ColorConstants.light_red,
-                                  ),
-                                  child: Text(
-                                    state.message,
-                                    style: const TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : Text(''),
                         RememberMeRow(),
                         LoginButton(
                           buttonText: 'Log in',
-                          onPressed: () {
+                          onPressed: () async {
                             BlocProvider.of<AuthBloc>(context).add(
                                 LoginEvent(email: _email, password: _password));
-                            if (!hasError) {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => HomeScreen()));
-                            }
+                            print(state);
                           },
                         ),
                         SignUpRow(),
@@ -105,18 +80,23 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
             );
-          } else if (state is AuthInitial) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: ColorConstants.primary_green,
-              ),
+          } else if (state is ErrorState) {
+            return AlertDialog(
+              title: Text(state.message),
+              backgroundColor: ColorConstants.light_red,
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      _password = "";
+                      BlocProvider.of<AuthBloc>(context).add(InitialEvent());
+                    },
+                    child: Text('OK'))
+              ],
             );
+          } else if (state is LoadingState) {
+            return CustomCircularProgressIndicator();
           } else {
-            return Center(
-              child: CircularProgressIndicator(
-                color: ColorConstants.primary_green,
-              ),
-            );
+            return CustomCircularProgressIndicator();
           }
         },
       ),

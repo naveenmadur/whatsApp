@@ -18,20 +18,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required this.signupUseCase,
     required this.loginUseCase,
     required this.getCurrentUserUseCase,
-  }) : super(CurrentState(
-            status: AuthStatus.success, message: 'Initial', email: '')) {
+  }) : super(AuthInitial()) {
+    on<InitialEvent>((event, emit) {
+      emit(AuthInitial());
+    });
+
     on<RegisterEvent>((event, emit) async {
       final result = await signupUseCase.registerUser(
           email: event.email, password: event.password);
-      phoneNumber = event.email;
+      emit(LoadingState());
       result.fold((l) {
-        emit(
-          CurrentState(
-            status: AuthStatus.failure,
-            message: l.message,
-            email: event.email,
-          ),
-        );
+        emit(ErrorState(message: l.message));
       }, (r) {
         emit(
           CurrentState(
@@ -48,13 +45,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         email: event.email,
         password: event.password,
       );
+      emit(LoadingState());
 
       result.fold((l) {
-        CurrentState(
-          status: AuthStatus.failure,
-          message: l.message,
-          email: event.email,
-        );
+        emit(ErrorState(message: l.message));
       }, (r) {
         CurrentState(
           status: AuthStatus.success,

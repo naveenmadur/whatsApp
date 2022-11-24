@@ -51,7 +51,6 @@ class _UserNameContainer extends State<PasswordContainer> {
           }
         },
         onChanged: (value) {
-          debugPrint(value);
           setState(() {
             currentText = value;
           });
@@ -61,7 +60,6 @@ class _UserNameContainer extends State<PasswordContainer> {
         focusNode: _focusNode,
         controller: _controller,
         obscureText: true,
-        obscuringCharacter: '#',
         keyboardType: TextInputType.visiblePassword,
         decoration: InputDecoration(
           errorBorder: OutlineInputBorder(

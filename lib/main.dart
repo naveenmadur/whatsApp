@@ -6,10 +6,9 @@ import 'package:whats_app/core/di/injector.dart';
 import 'package:whats_app/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:whats_app/presentation/bloc/homescreen_bloc/homescreen_bloc.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:whats_app/presentation/bloc/message_bloc/message_bloc.dart';
 import 'package:whats_app/presentation/bloc/users_bloc/users_bloc.dart';
-import 'package:whats_app/presentation/screens/home_screen/home_screen.dart';
-import 'package:whats_app/presentation/screens/log_in/login_screen.dart';
-import 'package:whats_app/presentation/screens/sign_up/signup_screen.dart';
+import 'package:whats_app/presentation/screens/handle_auth_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,6 +30,8 @@ class MyApp extends StatelessWidget {
         BlocProvider<HomescreenBloc>(create: (context) => HomescreenBloc()),
         BlocProvider<UsersBloc>(
             create: (context) => kiwi.KiwiContainer().resolve<UsersBloc>()),
+        BlocProvider<MessageBloc>(
+            create: (context) => kiwi.KiwiContainer().resolve<MessageBloc>())
       ],
       child: ScreenUtilInit(
         designSize: const Size(428, 926),
@@ -40,8 +41,9 @@ class MyApp extends StatelessWidget {
             title: 'Flutter Demo',
             theme: ThemeData(
               primarySwatch: Colors.teal,
+              useMaterial3: true,
             ),
-            home: LoginScreen(),
+            home: HandleAuthScreen(),
             // home: HomeScreen(),
           );
         },

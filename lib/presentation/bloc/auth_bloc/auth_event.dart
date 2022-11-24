@@ -3,6 +3,8 @@ part of 'auth_bloc.dart';
 
 abstract class AuthEvent {}
 
+class InitialEvent extends AuthEvent{}
+
 class RegisterEvent extends AuthEvent {
   final String email, password;
   RegisterEvent({

@@ -51,7 +51,6 @@ class _EmailIdContainerState extends State<EmailIdContainer> {
         //   }
         // },
         onChanged: (value) {
-          debugPrint(value);
           setState(() {
             currentText = value;
           });
