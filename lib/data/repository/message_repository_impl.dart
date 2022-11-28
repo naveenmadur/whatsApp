@@ -19,11 +19,14 @@ class MessageRepositoryImpl implements MessageRepository {
   }
 
   @override
-  Future<Either<Failure, void>> postMessage({
-    required MessageEntity message,
-    required String key,
-  }) async {
+  Future<Either<Failure, void>> postMessage(
+      {required MessageEntity message,
+      required String receiverEmail,
+      required String senderEmail}) async {
     return await messageRemoteDataSource.postMessage(
-        message: message, key: key);
+      message: message,
+      senderEmail: senderEmail,
+      receiverEmail: receiverEmail,
+    );
   }
 }

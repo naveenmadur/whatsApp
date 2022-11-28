@@ -16,12 +16,16 @@ class MessageBloc extends Bloc<MessageEvent, MessageState> {
     required this.postMessageUseCase,
   }) : super(MessageInitial()) {
     on<PostMessageEvent>((event, emit) {
-      postMessageUseCase.postMessage(event.message, event.key);
+      postMessageUseCase.postMessage(
+        message: event.message,
+        senderEmail: event.senderEmail,
+        receiverEmail: event.receiverEmail,
+      );
     });
 
     on<GetMessageEvent>((event, emit) async {
       var messages = await getMessageUseCase.getMessages(event.key);
-      print(event.key);
+
       messages.fold(
         (l) => emit(ErrorState('Unable fetch messages')),
         (r) => emit(AllMessages(messages: r)),

@@ -1,5 +1,7 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:whats_app/constants/color_constants.dart';
 import 'package:whats_app/constants/text_styles.dart';
 import 'package:whats_app/domain/entities/message_entity.dart';
@@ -7,7 +9,7 @@ import 'package:whats_app/presentation/bloc/message_bloc/message_bloc.dart';
 import 'package:whats_app/presentation/screens/chat/widgets/chat_container.dart';
 import 'package:whats_app/presentation/screens/chat/widgets/chat_text_field.dart';
 import 'package:whats_app/presentation/screens/chat/widgets/send_button.dart';
-import 'package:whats_app/presentation/screens/home_screen/widgets/app_bar_actions_container.dart';
+import 'package:whats_app/presentation/widgets/app_bar_actions_container.dart';
 import 'package:whats_app/presentation/widgets/custom_circular_progress_indicator.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -41,11 +43,11 @@ class _ChatScreenState extends State<ChatScreen> {
   late FocusNode _focusNode;
   final TextEditingController _controller = TextEditingController();
 
-  String getChatId() {
-    List<String> ids = [widget.currentUserId, widget.receiverId]..sort();
-    final id = ids[0] + '_' + ids[1];
-    return id;
-  }
+  // String getChatId() {
+  //   List<String> ids = [widget.currentUserId, widget.receiverId]..sort();
+  //   final id = ids[0] + '_' + ids[1];
+  //   return id;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -133,12 +135,14 @@ class _ChatScreenState extends State<ChatScreen> {
                                               DateTime.now().toString(),
                                           senderId: widget.currentUserId,
                                           receiverId: widget.receiverId,
+                                          isRead: false,
                                         );
                                         BlocProvider.of<MessageBloc>(context)
                                             .add(
                                           PostMessageEvent(
                                             message: message,
-                                            key: getChatId(),
+                                            senderEmail: widget.currentUserId,
+                                            receiverEmail: widget.receiverId,
                                           ),
                                         );
                                       }

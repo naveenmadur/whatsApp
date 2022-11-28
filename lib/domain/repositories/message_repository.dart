@@ -5,5 +5,5 @@ import 'package:whats_app/domain/entities/message_entity.dart';
 abstract class MessageRepository {
   Future<Either<Failure, Stream<List<MessageEntity>>>> getMessage(String key);
   Future<Either<Failure, void>> postMessage(
-      {required MessageEntity message, required String key});
+      {required MessageEntity message, required String receiverEmail, required String senderEmail});
 }

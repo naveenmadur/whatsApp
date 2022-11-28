@@ -37,19 +37,6 @@ class _EmailIdContainerState extends State<EmailIdContainer> {
         onTap: () {
           _focusNode.requestFocus();
         },
-        // validator: (value) {
-        //   if (value!.isEmpty) {
-        //     // hasError = true;
-        //     return 'Can\'t be empty';
-        //   }
-        //   if (value.length < 10 || value.length > 10) {
-        //     // hasError = true;
-        //     return 'Please Enter a valid phone number';
-        //   } else {
-        //     // hasError = false;
-        //     return null;
-        //   }
-        // },
         onChanged: (value) {
           setState(() {
             currentText = value;

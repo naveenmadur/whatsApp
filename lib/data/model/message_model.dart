@@ -1,14 +1,13 @@
 import 'package:whats_app/domain/entities/message_entity.dart';
 
 class MessageModel extends MessageEntity {
-  MessageModel(
-      {required super.message,
-      required super.createdTime,
-      required super.senderId,
-      required super.receiverId});
-
-  @override
-  List<Object?> get props => [message, createdTime, senderId, receiverId];
+  MessageModel({
+    required super.message,
+    required super.createdTime,
+    required super.senderId,
+    required super.receiverId,
+    required super.isRead,
+  });
 
   factory MessageModel.fromJson(Map<String, dynamic> json) {
     return MessageModel(
@@ -16,6 +15,7 @@ class MessageModel extends MessageEntity {
       createdTime: json['createdTime'],
       senderId: json['senderId'],
       receiverId: json['receiverId'],
+      isRead: json['isRead'],
     );
   }
 
@@ -25,6 +25,7 @@ class MessageModel extends MessageEntity {
       'createdTime': createdTime,
       'senderId': senderId,
       'receiverId': receiverId,
+      'isRead': isRead,
     };
     return map;
   }

@@ -4,8 +4,8 @@ class Paddings {
   static const EdgeInsetsGeometry appBarIconPadding =
       EdgeInsets.symmetric(horizontal: 12);
 
-  static const EdgeInsetsGeometry popUpMenuItemPadding =
-      EdgeInsets.symmetric(horizontal: 10, vertical: 10);
+  static const EdgeInsetsGeometry popUpMenuItemContentPadding =
+      EdgeInsets.symmetric(horizontal: 7);
 
   static const EdgeInsetsGeometry sendButtonPadding = EdgeInsets.all(10);
 

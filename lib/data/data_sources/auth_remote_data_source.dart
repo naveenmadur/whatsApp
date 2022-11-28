@@ -22,7 +22,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   //! Saving user data to firebase
   Future updateUserData({required String email, required String uid}) async {
-    return await usersCollection.doc(uid).set({
+    return await usersCollection.doc(email).set({
       "email": email,
       "groups": [],
       "profilePic": "",
@@ -49,6 +49,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (user != null) {
         await updateUserData(email: email, uid: user.uid);
       }
+      await login(email, password);
       return Right(WhatsUpUserEntity(email: email));
     } on FirebaseException catch (e) {
       return Left(FirebaseFailure(e.toString()));
@@ -59,6 +60,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<Either<Failure, WhatsUpUserEntity>> login(
       String email, String password) async {
+        print('InLogin');
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);

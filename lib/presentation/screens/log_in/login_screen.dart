@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app/constants/color_constants.dart';
 import 'package:whats_app/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:whats_app/presentation/screens/log_in/widgets/email_id_container.dart';
-import 'package:whats_app/presentation/screens/log_in/widgets/phone_number_text_span.dart';
+import 'package:whats_app/presentation/widgets/required_text_span.dart';
 import 'package:whats_app/presentation/screens/log_in/widgets/remember_me_row.dart';
 import 'package:whats_app/presentation/screens/log_in/widgets/sign_up_row.dart';
 import 'package:whats_app/presentation/screens/log_in/widgets/password_container.dart';
@@ -52,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        PhoneNumberTextSpan(),
+                        RequiredTextSpan(title: 'Email Address',),
                         EmailIdContainer(
                           onChanged: (value) {
                             _email = value;
@@ -70,7 +70,6 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () async {
                             BlocProvider.of<AuthBloc>(context).add(
                                 LoginEvent(email: _email, password: _password));
-                            print(state);
                           },
                         ),
                         SignUpRow(),

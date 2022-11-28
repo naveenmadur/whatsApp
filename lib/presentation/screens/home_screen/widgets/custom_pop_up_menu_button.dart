@@ -4,6 +4,7 @@ import 'package:whats_app/constants/color_constants.dart';
 import 'package:whats_app/constants/decorations.dart';
 import 'package:whats_app/constants/icon_constants.dart';
 import 'package:whats_app/constants/paddings&margins.dart';
+import 'package:whats_app/presentation/screens/settings/settings_screen.dart';
 
 class CustomPopUpMenuButton extends StatelessWidget {
   const CustomPopUpMenuButton({
@@ -19,6 +20,8 @@ class CustomPopUpMenuButton extends StatelessWidget {
         decoration: Decorations.appBarIconBoxDecoration,
         child: IconConstants.more,
       ),
+      iconSize: 10,
+      padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -26,27 +29,28 @@ class CustomPopUpMenuButton extends StatelessWidget {
       color: ColorConstants.light_red,
       splashRadius: 20,
       itemBuilder: (context) => [
-        const PopupMenuItem(
+        PopupMenuItem(
           child: ListTile(
-            leading: const Icon(
-              Icons.person_outline,
-              color: ColorConstants.primary_green,
-            ),
-            title: const Text('Profile'),
-            contentPadding: Paddings.popUpMenuItemPadding,
+            leading: IconConstants.settings,
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SettingsScreen(),
+                ),
+              );
+            },
+            title: const Text('Settings'),
+            contentPadding: Paddings.popUpMenuItemContentPadding,
           ),
         ),
         PopupMenuItem(
           child: ListTile(
-            leading: const Icon(
-              Icons.logout_outlined,
-              color: ColorConstants.red,
-            ),
+            leading: IconConstants.logout,
             onTap: () {
               FirebaseAuth.instance.signOut();
             },
             title: const Text('Logout'),
-            contentPadding: Paddings.popUpMenuItemPadding,
+            contentPadding: Paddings.popUpMenuItemContentPadding,
           ),
         ),
       ],

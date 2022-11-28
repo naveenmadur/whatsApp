@@ -14,10 +14,12 @@ class GetMessageEvent extends MessageEvent {
 
 class PostMessageEvent extends MessageEvent {
   final MessageEntity message;
-  final String key;
+  final String senderEmail;
+  final String receiverEmail;
 
   PostMessageEvent({
     required this.message,
-    required this.key,
+    required this.senderEmail,
+    required this.receiverEmail,
   });
 }

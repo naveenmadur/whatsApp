@@ -14,8 +14,8 @@ class Chats extends StatelessWidget {
   }) : super(key: key);
 
   Future<String> getCurrentUser() async {
-    final currentUserId = await FirebaseAuth.instance.currentUser!.uid;
-    return currentUserId;
+    final currentUserId = await FirebaseAuth.instance.currentUser!.email;
+    return currentUserId!;
   }
 
   @override
@@ -36,34 +36,33 @@ class Chats extends StatelessWidget {
                     return CustomCircularProgressIndicator();
                   } else if (!snapshot.hasData) {
                     return CustomCircularProgressIndicator();
-                  } else if (snapshot.hasData) {
+                  } else if (snapshot.hasData &&
+                      snapshot.connectionState == ConnectionState.active) {
                     return ListView.builder(
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () async {
                             final id = await getCurrentUser();
+                            //TODO: get messages while building chat screen...
+                            List<String> ids = [id, snapshot.data[index].email]
+                              ..sort();
+                            final chatId = ids[0] + '_' + ids[1];
+                            BlocProvider.of<MessageBloc>(context)
+                                .add(GetMessageEvent(key: chatId));
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) {
-                                  List<String> ids = [
-                                    id,
-                                    snapshot.data[index].uid
-                                  ]..sort();
-                                  final chatId = ids[0] + '_' + ids[1];
-                                  BlocProvider.of<MessageBloc>(context)
-                                      .add(GetMessageEvent(key: chatId));
                                   return ChatScreen(
-                                    email: snapshot.data[index].email,
-                                    currentUserId: id,
-                                    receiverId: snapshot.data[index].uid,
-                                  );
+                                      email: snapshot.data[index].email,
+                                      currentUserId: id,
+                                      receiverId: snapshot.data[index].email);
                                 },
                               ),
                             );
                           },
                           child: ListTile(
                             leading: CircleAvatar(
-                              radius: 34,
+                              radius: 30,
                               backgroundColor: ColorConstants.primary_green,
                               child: CircleAvatar(
                                 backgroundColor: ColorConstants.light_red,
@@ -72,13 +71,13 @@ class Chats extends StatelessWidget {
                                   snapshot.data[index].email
                                       .substring(0, 1)
                                       .toUpperCase(),
+                                  style: TextStyle(fontSize: 18),
                                 ),
                               ),
                             ),
                             contentPadding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 5),
+                                horizontal: 5, vertical: 5),
                             title: Text(snapshot.data[index].email),
-                            // subtitle: Text(snapshot.data[index]['uid']),
                           ),
                         );
                       },

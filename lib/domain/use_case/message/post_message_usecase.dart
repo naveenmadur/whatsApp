@@ -8,10 +8,15 @@ class PostMessageUseCase {
   final MessageRepository repo;
   PostMessageUseCase({required this.repo});
 
-  Future<Either<Failure, void>> postMessage(
-    MessageEntity message,
-    String key,
-  ) async {
-    return await repo.postMessage(message: message, key: key);
+  Future<Either<Failure, void>> postMessage({
+    required MessageEntity message,
+    required String receiverEmail,
+    required String senderEmail,
+  }) async {
+    return await repo.postMessage(
+      message: message,
+      receiverEmail: receiverEmail,
+      senderEmail: senderEmail,
+    );
   }
 }

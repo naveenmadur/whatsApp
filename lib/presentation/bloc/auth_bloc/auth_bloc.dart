@@ -4,6 +4,7 @@ import 'package:whats_app/domain/entities/auth/whatsup_user_entity.dart';
 import 'package:whats_app/domain/use_case/authentication/get_currentUser_usercase.dart';
 import 'package:whats_app/domain/use_case/authentication/sign_up_usecase.dart';
 import 'package:whats_app/domain/use_case/authentication/login_usecase.dart';
+import 'package:whats_app/presentation/bloc/message_bloc/message_bloc.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
