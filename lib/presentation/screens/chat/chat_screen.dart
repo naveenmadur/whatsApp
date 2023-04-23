@@ -61,8 +61,8 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
         elevation: 0,
         actions: [
-          AppBarAcionsContainer(icon: Icons.phone_outlined, ontap: () {}),
-          AppBarAcionsContainer(icon: Icons.videocam_outlined, ontap: () {}),
+          AppBarActionsContainer(icon: Icons.phone_outlined, onTap: () {}),
+          AppBarActionsContainer(icon: Icons.videocam_outlined, onTap: () {}),
         ],
         backgroundColor: ColorConstants.light_background,
       ),

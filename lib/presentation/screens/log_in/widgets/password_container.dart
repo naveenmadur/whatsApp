@@ -33,7 +33,7 @@ class _UserNameContainer extends State<PasswordContainer> {
     return Form(
       key: formKey,
       child: TextFormField(
-        autovalidateMode: AutovalidateMode.always,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         onTap: () {
           _focusNode.requestFocus();
         },

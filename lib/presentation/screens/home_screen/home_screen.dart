@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:whats_app/constants/color_constants.dart';
 import 'package:whats_app/constants/text_constants.dart';
 import 'package:whats_app/presentation/bloc/homescreen_bloc/homescreen_bloc.dart';
@@ -22,17 +23,30 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: ColorConstants.light_background,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: TextConstants.homeScreenAppBarText,
+        // title: TextConstants.homeScreenAppBarText,
         elevation: 0,
         centerTitle: false,
         backgroundColor: ColorConstants.light_background,
-        actions: [
-          AppBarAcionsContainer(
-            icon: Icons.search,
-            ontap: () {},
+        flexibleSpace: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.h,
+              vertical: 8.h,
+            ),
+            child: Row(
+              children: [
+                TextConstants.homeScreenAppBarText,
+                const Spacer(),
+                AppBarActionsContainer(
+                  icon: Icons.search,
+                  onTap: () {},
+                ),
+                SizedBox(width: 10.w),
+                CustomPopUpMenuButton(),
+              ],
+            ),
           ),
-          CustomPopUpMenuButton(),
-        ],
+        ),
       ),
       body: BlocBuilder<HomescreenBloc, HomescreenState>(
         builder: (context, state) {

@@ -1,14 +1,7 @@
+import 'package:firebase_phone_auth_handler/firebase_phone_auth_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app/constants/color_constants.dart';
-import 'package:whats_app/presentation/bloc/auth_bloc/auth_bloc.dart';
-import 'package:whats_app/presentation/screens/home_screen/home_screen.dart';
-import 'package:whats_app/presentation/screens/log_in/widgets/email_id_container.dart';
-import 'package:whats_app/presentation/screens/log_in/widgets/phone_number_text_span.dart';
-import 'package:whats_app/presentation/screens/log_in/widgets/remember_me_row.dart';
-import 'package:whats_app/presentation/screens/log_in/widgets/password_container.dart';
-import 'package:whats_app/presentation/widgets/custom_circular_progress_indicator.dart';
+import 'package:whats_app/presentation/screens/enter_otp_screen/enter_otp_screen.dart';
 import 'package:whats_app/presentation/widgets/login_button.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -19,92 +12,126 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  String _emailId = "";
-  bool hasError = false;
-  String _password = "";
+  final _formKey = GlobalKey<FormState>();
+  String _phoneNumber = '+91';
+  String _tempPhoneNumber = '';
+  String _name = '';
+
   @override
   Widget build(BuildContext context) {
+    print(_phoneNumber);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: ColorConstants.light_background,
-      //!
-      body: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          if (state is AuthInitial) {
-            return CustomCircularProgressIndicator();
-          } else if (state is CurrentState) {
-            if (state.status == AuthStatus.loading) {
-              return CustomCircularProgressIndicator();
-            } else {
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Image(
-                        image: AssetImage(
-                          'lib/assets/images/splash_light.png',
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50.h,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 20.h),
-                            child: Text(
-                              'Sign in to your account',
-                              style: TextStyle(
-                                fontSize: 20.sp,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          PhoneNumberTextSpan(),
-                          EmailIdContainer(
-                            onChanged: (value) {
-                              _emailId = value;
-                            },
-                          ),
-                          SizedBox(
-                            height: 10.h,
-                          ),
-                          PasswordContainer(
-                            onChanged: (value) {
-                              _password = value;
-                            },
-                          ),
-                          RememberMeRow(),
-                          LoginButton(
-                            buttonText: 'Sign Up',
-                            onPressed: () {
-                              BlocProvider.of<AuthBloc>(context).add(
-                                  RegisterEvent(
-                                      email: _emailId, password: _password));
-                              if (state.status == AuthStatus.success) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => HomeScreen(),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }
-          } else {
-            return CustomCircularProgressIndicator();
-          }
-        },
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        title: Text('Sign up'),
+        iconTheme: IconThemeData(
+          color: Colors.teal,
+        ),
       ),
+      //!
+      // body: SignupScreenBody(),
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(bottom: 20.h),
+              child: Text(
+                'Sign in to your account',
+                style: TextStyle(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.phone_android_rounded,
+                      ),
+                      counterText: '',
+                      hintText: 'Phone Number',
+                    ),
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    keyboardType: TextInputType.phone,
+                    maxLength: 10,
+                    validator: (value) {
+                      if (value?.length == 10) {
+                        return null;
+                      } else {
+                        return 'Enter valid mobile number';
+                      }
+                    },
+                    onChanged: (value) {
+                      _tempPhoneNumber = value;
+                    },
+                  ),
+                  30.verticalSpace,
+                  TextFormField(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                      prefixIcon: Icon(
+                        Icons.person_outline_rounded,
+                      ),
+                      counterText: '',
+                      hintText: 'What should we call you?',
+                    ),
+                    validator: (value) {
+                      if (value?.length == 0) {
+                        return 'Please enter your name';
+                      } else {
+                        return null;
+                      }
+                    },
+                    keyboardType: TextInputType.name,
+                    maxLength: 10,
+                  ),
+                ],
+              ),
+            ),
+            30.verticalSpace,
+            StatefulBuilder(
+              builder: (context, setState) {
+                return LoginButton(
+                  buttonText: 'Send OTP',
+                  onPressed: () {
+                    // BlocProvider.of<AuthBloc>(context).add(
+                    //   RegisterEvent(email: _emailId, password: _password),
+                    // );
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => EnterOtpScreen(),
+                        ),
+                      );
+                    }
+                  },
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SignupScreenBody extends StatelessWidget {
+  const SignupScreenBody({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FirebasePhoneAuthHandler(
+      phoneNumber: "+918888597565",
+      builder: (context, controller) {
+        return SizedBox.shrink();
+      },
     );
   }
 }

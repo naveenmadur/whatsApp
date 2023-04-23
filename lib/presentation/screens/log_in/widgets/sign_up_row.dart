@@ -20,8 +20,11 @@ class SignUpRow extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => SignUpScreen()));
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SignUpScreen(),
+                ),
+              );
             },
             child: Text(
               'Sign Up',
@@ -33,5 +36,14 @@ class SignUpRow extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class PhoneAuthRow extends StatelessWidget {
+  const PhoneAuthRow({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

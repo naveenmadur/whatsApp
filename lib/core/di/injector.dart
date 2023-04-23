@@ -17,11 +17,13 @@ import 'package:whats_app/domain/use_case/message/post_message_usecase.dart';
 import 'package:whats_app/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:whats_app/presentation/bloc/message_bloc/message_bloc.dart';
 import 'package:whats_app/presentation/bloc/users_bloc/users_bloc.dart';
+import 'package:whats_app/presentation/screens/enter_otp_screen/bloc/enter_otp_bloc.dart';
 
 part 'injector.g.dart';
 
 abstract class Injector {
   static KiwiContainer? container;
+
   static void setup() {
     container = KiwiContainer();
     _$Injector()._configure();
@@ -33,26 +35,33 @@ abstract class Injector {
   @Register.factory(AuthBloc)
   @Register.factory(UsersBloc)
   @Register.factory(MessageBloc)
+  @Register.factory(EnterOtpBloc)
 
   //! Use Case
-  @Register.factory(SignupUseCase)
-  @Register.factory(LoginUseCase)
-  @Register.factory(GetCurrentUserUseCase)
-  @Register.factory(GetAllUsersUseCase)
-  @Register.factory(GetMessageUseCase)
-  @Register.factory(PostMessageUseCase)
+  @Register.singleton(SignupUseCase)
+  @Register.singleton(LoginUseCase)
+  @Register.singleton(GetCurrentUserUseCase)
+  @Register.singleton(GetAllUsersUseCase)
+  @Register.singleton(GetMessageUseCase)
+  @Register.singleton(PostMessageUseCase)
 
   //! Repositories
-  @Register.factory(AuthRepository, from: AuthRepositoryImpl)
-  @Register.factory(UsersRepository, from: UsersRepositoryImpl)
-  @Register.factory(MessageRepository, from: MessageRepositoryImpl)
+  @Register.singleton(AuthRepository, from: AuthRepositoryImpl)
+  @Register.singleton(UsersRepository, from: UsersRepositoryImpl)
+  @Register.singleton(MessageRepository, from: MessageRepositoryImpl)
 
   //! Data Source
-  @Register.factory(AuthRemoteDataSource, from: AuthRemoteDataSourceImpl)
-  @Register.factory(UsersRemoteDataSource, from: UsersRemoteDataSourceImpl)
-  @Register.factory(MessageRemoteDataSource, from: MessageRemoteDataSourceImpl)
-
-
-  // ignore: unused_element
+  @Register.singleton(
+    AuthRemoteDataSource,
+    from: AuthRemoteDataSourceImpl,
+  )
+  @Register.singleton(
+    UsersRemoteDataSource,
+    from: UsersRemoteDataSourceImpl,
+  )
+  @Register.singleton(
+    MessageRemoteDataSource,
+    from: MessageRemoteDataSourceImpl,
+  )
   void _configure();
 }

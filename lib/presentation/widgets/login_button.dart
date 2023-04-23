@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:whats_app/constants/color_constants.dart';
 
 class LoginButton extends StatelessWidget {
   const LoginButton({
@@ -9,14 +8,14 @@ class LoginButton extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
   final String buttonText;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: MaterialStatePropertyAll<Color>(
-          ColorConstants.primary_green,
+          Colors.teal,
         ),
         shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(
@@ -25,12 +24,25 @@ class LoginButton extends StatelessWidget {
             ),
           ),
         ),
+        minimumSize: MaterialStateProperty.all<Size>(
+          Size(
+            MediaQuery.of(context).size.width,
+            50,
+          ),
+        ),
       ),
       onPressed: onPressed,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 130.w, vertical: 15.h),
+        padding: EdgeInsets.symmetric(
+          vertical: 15.h,
+        ),
         child: Text(
           buttonText,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
         ),
       ),
     );

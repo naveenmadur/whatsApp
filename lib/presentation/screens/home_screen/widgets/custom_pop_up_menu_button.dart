@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:whats_app/constants/color_constants.dart';
-import 'package:whats_app/constants/decorations.dart';
-import 'package:whats_app/constants/icon_constants.dart';
 import 'package:whats_app/constants/paddings&margins.dart';
 
 class CustomPopUpMenuButton extends StatelessWidget {
@@ -13,11 +11,18 @@ class CustomPopUpMenuButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
-      child: Container(
-        padding: Paddings.appBarIconPadding,
-        margin: Margins.appBarIconMargin,
-        decoration: Decorations.appBarIconBoxDecoration,
-        child: IconConstants.more,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: ColorConstants.light_green,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            Icons.more_vert_rounded,
+            color: ColorConstants.primary_green,
+          ),
+        ),
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),

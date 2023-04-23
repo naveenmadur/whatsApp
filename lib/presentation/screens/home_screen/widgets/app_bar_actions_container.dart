@@ -2,30 +2,31 @@
 import 'package:flutter/material.dart';
 
 import 'package:whats_app/constants/color_constants.dart';
-import 'package:whats_app/constants/decorations.dart';
-import 'package:whats_app/constants/paddings&margins.dart';
 
-class AppBarAcionsContainer extends StatelessWidget {
-  const AppBarAcionsContainer({
+class AppBarActionsContainer extends StatelessWidget {
+  const AppBarActionsContainer({
     Key? key,
     required this.icon,
-    required this.ontap,
+    required this.onTap,
   }) : super(key: key);
   final IconData icon;
-  final VoidCallback ontap;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ontap,
-      child: Container(
-        constraints: BoxConstraints(maxHeight: 10),
-        margin: Margins.appBarIconMargin,
-        padding: Paddings.appBarIconPadding,
-        decoration: Decorations.appBarIconBoxDecoration,
-        child: Icon(
-          icon,
-          color: ColorConstants.primary_green,
+      onTap: onTap,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: ColorConstants.light_green,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            icon,
+            color: ColorConstants.primary_green,
+          ),
         ),
       ),
     );

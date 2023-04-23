@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,6 +15,7 @@ class LoginScreen extends StatelessWidget {
   bool hasError = false;
   String _email = "";
   String _password = "";
+  LoginScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +24,7 @@ class LoginScreen extends StatelessWidget {
       backgroundColor: ColorConstants.light_background,
       body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {
+          print(state);
           if (state is AuthInitial) {
             return SingleChildScrollView(
               child: Padding(
@@ -69,8 +70,11 @@ class LoginScreen extends StatelessWidget {
                           buttonText: 'Log in',
                           onPressed: () async {
                             BlocProvider.of<AuthBloc>(context).add(
-                                LoginEvent(email: _email, password: _password));
-                            print(state);
+                              LoginEvent(
+                                email: _email,
+                                password: _password,
+                              ),
+                            );
                           },
                         ),
                         SignUpRow(),
